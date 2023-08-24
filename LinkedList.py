@@ -6,11 +6,11 @@ class LinkedList:
 
     # Nested Node class
     class Node :
-        __value = None
-        __next = None
+        value = None
+        next = None
         def __init__(self, value): 
-            self.__value = value
-
+            self.value = value
+        
 
 
     # private attributes 
@@ -19,17 +19,28 @@ class LinkedList:
     # methods 
     def __init__(self):
         ...
+    # Return string representation of the linked list  
+    def __str__(self):
+        result = ""
+        if (self.__head == None):
+             return "[" + result + "]"
+        else: 
+            cursor = self.__head
+            while (cursor != None) :  
+                result += "["+ str( cursor.value ) + "]---"
+                cursor = cursor.next 
+            return result
     
     # insert new node infront of the linked list 
-    def pushNode (self, newNode):
+    def pushNode (self, value):
         if(self.__head == None):
+            newNode = self.Node(value) 
             self.__head = newNode
         else: 
             # not empty
-            temp = newNode
-            newNode.__next = self._head
-            self.__head = temp
-            temp = None 
+            newNode = self.Node(value)
+            newNode.next = self.__head
+            self.__head = newNode
             
     # Remove node from 
     def  popNode (self):
@@ -38,8 +49,8 @@ class LinkedList:
             raise Exception("Can't remove empty list")
         else: 
             # Not empty 
-            value = self.head.__value
-            self.__head = self.__head.__next
+            value = self.__head.value
+            self.__head = self.__head.next
             return value     
 
     # Get size of the linked list      
@@ -57,16 +68,16 @@ class LinkedList:
         flag = False
         cursor = self.__head
         while (cursor != None) : 
-            if (cursor.__value == value) :
+            if (cursor.value == value) :
                 flag = True 
                 break
         return flag 
     
     # Recursive Helper function
     def __reverseHelper(self, temp): 
-        if (temp != None): 
-            prev = self.__reverseHelper(temp)
-            prev.__next = temp
+        if (temp.next != None): 
+            prev = self.__reverseHelper(temp.next)
+            prev.next = temp
             return temp 
         else:  
             self.__head = temp
@@ -77,8 +88,13 @@ class LinkedList:
          # make sure not an empty list or single element list
          if( self.getSize() > 1) :
             # get reference to first node
-            temp = self.__head
-            self.__reverseHelper(temp) 
-            tail = self.__head
-            tail.__next = None
+            temp = self.__reverseHelper(self.__head)
+            temp.next = None
+
+    # Method clears linked list
+    def clear(self): 
+        if(self.__head == None) :
+            raise Exception("Empty list") 
+        else:
+            self.__head = None  
              
